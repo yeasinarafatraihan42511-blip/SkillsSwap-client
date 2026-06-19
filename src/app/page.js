@@ -1,5 +1,8 @@
 import FeaturedTasks from "@/components/home/FeaturedTasks";
 import HeroSection from "@/components/home/HeroSection";
+import TopFreelancers from "@/components/home/TopFreelancers";
+import WhyChooseUs from "@/components/home/WhyChooseUs";
+import Statistics from "@/components/home/Statistics";
 import Image from "next/image";
 
 
@@ -9,6 +12,9 @@ export default function Home() {
       <main>
         <HeroSection />
          <FeaturedTasks />
+         <TopFreelancers />
+         <WhyChooseUs />
+         <Statistics />
       
       </main>
     </div>
