@@ -21,7 +21,7 @@ return ( <footer className="border-t mt-24"> <div className="max-w-7xl mx-auto p
           <Link href="/">Home</Link>
           <Link href="/browse-tasks">Browse Tasks</Link>
           <Link href="/browse-freelancers">Browse Freelancers</Link>
-          <Link href="/login">Login</Link>
+          <Link href="/auth/login">Login</Link>
         </div>
       </div>
 

@@ -151,13 +151,30 @@ export default function Navbar() {
         {/* Right Side */}
         {!session ? (
           <div className="flex gap-3">
-            <Button as={Link} href="/auth/login" variant="light">
+            {/* <Button as={Link} href="/auth/login" variant="light">
               Login
             </Button>
+            <Link href="/auth/login" variant="light">
+              Login
+            </Link>
 
             <Button as={Link} href="/auth/register" color="primary">
               Register
-            </Button>
+            </Button> */}
+             <>
+              <Link
+                href="auth/login"
+                className="px-4 py-1.5 border-2 border-fuchsia-500 rounded-md hover:bg-gray-50"
+              >
+                Login
+              </Link>
+              <Link
+                href="auth/register"
+                className="px-4 py-1.5 bg-red-500 text-white rounded-md hover:bg-gray-800"
+              >
+                Register
+              </Link>
+            </>
           </div>
         ) : (
           <Dropdown>
