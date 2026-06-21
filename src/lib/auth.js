@@ -1,3 +1,22 @@
+// import { betterAuth } from "better-auth";
+// import { MongoClient } from "mongodb";
+// import { mongodbAdapter } from "better-auth/adapters/mongodb";
+
+// const client = new MongoClient(process.env.MONGO_DB_URI);
+
+// export const auth = betterAuth({
+//   emailAndPassword: {
+//     enabled: true,
+//   },
+//   socialProviders: {
+//   google: {
+//     clientId: process.env.GOOGLE_CLIENT_ID,
+//     clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+//   },
+// },
+
+//   database: mongodbAdapter(client.db(process.env.AUTH_DB_NAME)),
+// });
 import { betterAuth } from "better-auth";
 import { MongoClient } from "mongodb";
 import { mongodbAdapter } from "better-auth/adapters/mongodb";
@@ -8,12 +27,27 @@ export const auth = betterAuth({
   emailAndPassword: {
     enabled: true,
   },
+
   socialProviders: {
-  google: {
-    clientId: process.env.GOOGLE_CLIENT_ID,
-    clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+    google: {
+      clientId: process.env.GOOGLE_CLIENT_ID,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+    },
   },
-},
+
+  user: {
+    additionalFields: {
+      role: {
+        type: "string",
+        required: false,
+        defaultValue: "freelancer",
+      },
+      plan: {
+        defaultValue:"free"
+      }
+
+    },
+  },
 
   database: mongodbAdapter(client.db(process.env.AUTH_DB_NAME)),
 });

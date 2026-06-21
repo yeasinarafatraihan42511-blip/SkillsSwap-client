@@ -1,89 +1,4 @@
 
-
-// "use client";
-// import { authClient } from "@/lib/auth-client";
-// import { useRouter } from "next/navigation";
-// import toast from "react-hot-toast";
-// import Link from "next/link";
-// import {
-//   Button,
-//   Card,
-//   Form,
-//   Input,
-//   Label,
-//   TextField,
-// } from "@heroui/react";
-
-// export default function RegisterPage() {
-//   const router = useRouter();
-
-//   const onSubmit = async (e) => {
-//     e.preventDefault();
-
-//     const form = e.target;
-//     const name = form.name.value;
-//     const image = form.image.value;
-//     const email = form.email.value;
-//     const password = form.password.value;
-
-//     const { error } = await authClient.signUp.email({
-//       name,
-//       image,
-//       email,
-//       password,
-//       callbackURL: "/login",
-//     });
-
-//     if (error) {
-//       toast.error("Registration failed");
-//     } else {
-//       toast.success("Registration successful");
-//       form.reset(); 
-//       router.push("/login");
-//     }
-//   };
-
-//   return (
-//     <div className="min-h-screen flex items-center justify-center bg-yellow-50">
-//       <Card className="w-[380px] p-8 shadow-lg rounded-xl">
-
-//         <h1 className="text-2xl font-bold text-center mb-6">
-//           Create Account 🚀
-//         </h1>
-
-//         <Form className="flex flex-col gap-4" onSubmit={onSubmit}>
-//           <TextField isRequired name="name">
-//             <Label>Name</Label>
-//             <Input placeholder="Your name" />
-//           </TextField>
-
-         
-
-//           <TextField isRequired name="email" type="email">
-//             <Label>Email</Label>
-//             <Input placeholder="john@example.com" />
-//           </TextField>
-
-//           <TextField isRequired name="password" type="password">
-//             <Label>Password</Label>
-//             <Input placeholder="Enter password" />
-//           </TextField>
-
-//           <Button type="submit" className="bg-blue-600 text-white">
-//             Register
-//           </Button>
-//         </Form>
-
-//         <p className="text-sm text-center mt-4">
-//           Already have an account?{" "}
-//           <Link href="/login" className="underline font-medium">
-//             Login
-//           </Link>
-//         </p>
-//       </Card>
-//     </div>
-//   );
-// }
 "use client";
 
 import { useState } from "react";
@@ -97,7 +12,7 @@ export default function RegisterPage() {
 
   const [formData, setFormData] = useState({
     name: "",
-    
+    image: "",
     email: "",
     password: "",
     role: "client",
@@ -113,14 +28,15 @@ export default function RegisterPage() {
   const onSubmit = async (e) => {
     e.preventDefault();
 
-    const { name, image, email, password } = formData;
+    const { name, image, email, password, role } = formData;
 
     const { error } = await authClient.signUp.email({
       name,
-     
+      image,
       email,
       password,
-      callbackURL: "/login",
+      callbackURL: "/auth/register",
+      role,
     });
 
     if (error) {
@@ -129,7 +45,7 @@ export default function RegisterPage() {
     }
 
     toast.success("Registration successful");
-    router.push("/login");
+    router.push("/auth/login");
   };
 
   return (
@@ -152,7 +68,14 @@ export default function RegisterPage() {
             required
           />
 
-        
+          <input
+            type="text"
+            name="image"
+            placeholder="Profile Image URL"
+            value={formData.image}
+            onChange={handleChange}
+            className="w-full border p-3 rounded-xl"
+          />
 
           <input
             type="email"
@@ -183,6 +106,7 @@ export default function RegisterPage() {
           >
             <option value="client">Client</option>
             <option value="freelancer">Freelancer</option>
+            <option value="admin">Admin</option>
           </select>
 
           <button
@@ -196,7 +120,7 @@ export default function RegisterPage() {
 
         <p className="text-center mt-5">
           Already have an account?{" "}
-          <Link href="/login" className="text-blue-600 font-medium">
+          <Link href="auth/login" className="text-blue-600 font-medium">
             Login
           </Link>
         </p>
