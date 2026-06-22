@@ -47,7 +47,7 @@ export default function LoginPage() {
       <Card className="w-[380px] p-8 shadow-lg rounded-xl">
 
         <h1 className="text-2xl font-bold text-center mb-6">
-          Login to TileGallery
+          Welcome Back
         </h1>
 
         <Form autoComplete="off" className="flex flex-col gap-4" onSubmit={onSubmit}>

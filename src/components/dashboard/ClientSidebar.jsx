@@ -32,11 +32,7 @@
 //       href: "/dashboard/client/manage-proposals",
 //       icon: FileText,
 //     },
-//     {
-//       name: "Profile",
-//       href: "/dashboard/client/profile",
-//       icon: User,
-//     },
+   
 //   ];
 
 //   return (
@@ -90,6 +86,7 @@ import {
   ListTodo,
   FileText,
   LogOut,
+  User,
 } from "lucide-react";
 
 export default function ClientSidebar() {
@@ -115,6 +112,11 @@ export default function ClientSidebar() {
       title: "Manage Proposals",
       href: "/dashboard/client/manage-proposals",
       icon: FileText,
+    },
+     {
+      title: "Profile",
+      href: "/dashboard/client/profile",
+      icon: User,
     },
   ];
 

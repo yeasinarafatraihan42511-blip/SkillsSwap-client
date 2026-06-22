@@ -1,12 +1,11 @@
+export default function BrowseTasksPage() {
+  return (
+    <div>
+      <h1 className="text-3xl font-bold mb-4">
+        Browse Tasks
+      </h1>
 
-
-const BrowseTaskpage = () => {
-    return (
-        <div>
-            <h1>Browse Tasks</h1>
-            <p>This is the browse tasks page.</p>
-        </div>
-    );
-};
-
-export default BrowseTaskpage;
+      <p>All open tasks will be shown here.</p>
+    </div>
+  );
+}
