@@ -123,9 +123,15 @@ import {
   DropdownItem,
   Avatar,
 } from "@heroui/react";
+import { usePathname } from "next/navigation";
+import { User } from "lucide-react";
 
 export default function Navbar() {
   const { data: session } = authClient.useSession();
+  const pathname = usePathname();
+  if(pathname.includes('dashboard')){
+    return null;
+  }
 
   const handleLogout = async () => {
     await authClient.signOut();
@@ -208,7 +214,9 @@ export default function Navbar() {
               </div>
               <Dropdown.Menu>
                 <Dropdown.Item id="dashboard" textValue="Dashboard">
-                  <Label>Dashboard</Label>
+                  <Link href={`/dashboard/${session?.user?.role}`}>
+                    <Label>Dashboard</Label>
+                  </Link>
                 </Dropdown.Item>
                 <Dropdown.Item id="profile" textValue="Profile">
                   <Label>Profile</Label>

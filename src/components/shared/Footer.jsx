@@ -1,7 +1,14 @@
+"use client";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { FaGithub, FaLinkedin, FaXTwitter } from "react-icons/fa6";
 
 export default function Footer() {
+const pathname = usePathname();
+  if(pathname.includes('dashboard')){
+    return null;
+  }
+
 return ( <footer className="border-t mt-24"> <div className="max-w-7xl mx-auto px-6 py-12"> <div className="grid md:grid-cols-3 gap-10">
 
 ```
