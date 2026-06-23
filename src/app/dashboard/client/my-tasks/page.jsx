@@ -1,69 +1,103 @@
 "use client";
 
+import { useEffect, useState } from "react";
+import { authClient } from "@/lib/auth-client";
+
 export default function MyTasksPage() {
-  const tasks = [
-    {
-      _id: "1",
-      title: "Build React Website",
-      category: "Web Development",
-      budget: 500,
-      status: "Open",
-    },
-    {
-      _id: "2",
-      title: "Mobile App UI Design",
-      category: "UI/UX Design",
-      budget: 300,
-      status: "In Progress",
-    },
-  ];
+  const [tasks, setTasks] = useState([]);
+
+  const { data: session } = authClient.useSession();
+
+  useEffect(() => {
+    if (!session?.user?.email) return;
+
+    fetch(
+      `http://localhost:5000/my-tasks?email=${session.user.email}`
+    )
+      .then((res) => res.json())
+      .then((data) => setTasks(data));
+  }, [session]);
+
+  const handleDelete = async (id) => {
+    const confirmDelete = confirm(
+      "Are you sure?"
+    );
+
+    if (!confirmDelete) return;
+
+    const res = await fetch(
+      `http://localhost:5000/tasks/${id}`,
+      {
+        method: "DELETE",
+      }
+    );
+
+    const data = await res.json();
+
+    if (data.deletedCount > 0) {
+      setTasks(
+        tasks.filter(
+          (task) => task._id !== id
+        )
+      );
+
+      alert("Task deleted");
+    }
+  };
 
   return (
     <div>
-      <div className="mb-6">
-        <h1 className="text-3xl font-bold">My Tasks</h1>
-        <p className="text-gray-500 mt-2">
-          View and manage all your posted tasks.
-        </p>
-      </div>
+      <h1 className="text-3xl font-bold mb-6">
+        My Tasks
+      </h1>
 
       <div className="bg-white rounded-xl border overflow-hidden">
         <table className="w-full">
           <thead className="bg-slate-100">
             <tr>
-              <th className="text-left p-4">Title</th>
-              <th className="text-left p-4">Category</th>
-              <th className="text-left p-4">Budget</th>
-              <th className="text-left p-4">Status</th>
-              <th className="text-left p-4">Actions</th>
+              <th className="p-4 text-left">
+                Title
+              </th>
+
+              <th className="p-4 text-left">
+                Budget
+              </th>
+
+              <th className="p-4 text-left">
+                Status
+              </th>
+
+              <th className="p-4 text-left">
+                Action
+              </th>
             </tr>
           </thead>
 
           <tbody>
             {tasks.map((task) => (
-              <tr key={task._id} className="border-t">
-                <td className="p-4">{task.title}</td>
-                <td className="p-4">{task.category}</td>
-                <td className="p-4">${task.budget}</td>
-
+              <tr
+                key={task._id}
+                className="border-t"
+              >
                 <td className="p-4">
-                  <span
-                    className={`px-3 py-1 rounded-full text-sm ${
-                      task.status === "Open"
-                        ? "bg-green-100 text-green-700"
-                        : "bg-yellow-100 text-yellow-700"
-                    }`}
-                  >
-                    {task.status}
-                  </span>
+                  {task.title}
                 </td>
 
-                <td className="p-4 flex gap-2">
-                  <button className="px-3 py-1 rounded bg-blue-500 text-white">
-                    Edit
-                  </button>
+                <td className="p-4">
+                  ${task.budget}
+                </td>
 
-                  <button className="px-3 py-1 rounded bg-red-500 text-white">
+                <td className="p-4 capitalize">
+                  {task.status}
+                </td>
+
+                <td className="p-4">
+                  <button
+                    onClick={() =>
+                      handleDelete(task._id)
+                    }
+                    className="bg-red-600 text-white px-3 py-1 rounded"
+                  >
                     Delete
                   </button>
                 </td>

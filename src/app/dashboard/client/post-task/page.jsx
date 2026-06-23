@@ -1,9 +1,12 @@
 "use client";
 
 import { useState } from "react";
+import { authClient } from "@/lib/auth-client";
 
 export default function PostTaskPage() {
   const [loading, setLoading] = useState(false);
+
+  const { data: session } = authClient.useSession();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -16,20 +19,31 @@ export default function PostTaskPage() {
       description: form.description.value,
       budget: Number(form.budget.value),
       deadline: form.deadline.value,
+
+      clientName: session?.user?.name,
+      clientEmail: session?.user?.email,
+
       status: "open",
       createdAt: new Date(),
     };
 
-    console.log(taskData);
-
     try {
       setLoading(true);
 
-      // TODO: MongoDB save logic later
+      const response = await fetch("http://localhost:5000/tasks", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(taskData),
+      });
 
-      alert("Task created successfully!");
+      const data = await response.json();
 
-      form.reset();
+      if (data.insertedId) {
+        alert("Task created successfully!");
+        form.reset();
+      }
     } catch (error) {
       console.error(error);
       alert("Something went wrong!");
@@ -41,7 +55,9 @@ export default function PostTaskPage() {
   return (
     <div className="max-w-4xl">
       <div className="mb-8">
-        <h1 className="text-3xl font-bold">Post a Task</h1>
+        <h1 className="text-3xl font-bold">
+          Post a Task
+        </h1>
 
         <p className="text-gray-500 mt-2">
           Publish a new task for freelancers.
@@ -49,8 +65,10 @@ export default function PostTaskPage() {
       </div>
 
       <div className="bg-white rounded-2xl border p-6 shadow-sm">
-        <form onSubmit={handleSubmit} className="space-y-6">
-          {/* Task Title */}
+        <form
+          onSubmit={handleSubmit}
+          className="space-y-6"
+        >
           <div>
             <label className="block mb-2 font-medium">
               Task Title
@@ -65,7 +83,6 @@ export default function PostTaskPage() {
             />
           </div>
 
-          {/* Category */}
           <div>
             <label className="block mb-2 font-medium">
               Category
@@ -76,7 +93,9 @@ export default function PostTaskPage() {
               required
               className="w-full border rounded-xl px-4 py-3 outline-none focus:ring-2 focus:ring-blue-500"
             >
-              <option value="">Select Category</option>
+              <option value="">
+                Select Category
+              </option>
 
               <option value="Web Development">
                 Web Development
@@ -100,7 +119,6 @@ export default function PostTaskPage() {
             </select>
           </div>
 
-          {/* Budget */}
           <div>
             <label className="block mb-2 font-medium">
               Budget (USD)
@@ -116,7 +134,6 @@ export default function PostTaskPage() {
             />
           </div>
 
-          {/* Deadline */}
           <div>
             <label className="block mb-2 font-medium">
               Deadline Date
@@ -130,7 +147,6 @@ export default function PostTaskPage() {
             />
           </div>
 
-          {/* Description */}
           <div>
             <label className="block mb-2 font-medium">
               Description
@@ -148,9 +164,11 @@ export default function PostTaskPage() {
           <button
             type="submit"
             disabled={loading}
-            className="bg-blue-600 text-white px-6 py-3 rounded-xl font-medium hover:bg-blue-700 transition"
+            className="bg-blue-600 text-white px-6 py-3 rounded-xl font-medium hover:bg-blue-700 transition disabled:opacity-50"
           >
-            {loading ? "Creating..." : "Post Task"}
+            {loading
+              ? "Creating..."
+              : "Post Task"}
           </button>
         </form>
       </div>
