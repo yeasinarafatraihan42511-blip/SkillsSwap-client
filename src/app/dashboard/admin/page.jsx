@@ -1,45 +1,65 @@
+"use client";
+
+import { useEffect, useState } from "react";
+
 export default function AdminDashboardPage() {
-  const stats = [
-    {
-      title: "Total Users",
-      value: 125,
-    },
-    {
-      title: "Total Tasks",
-      value: 48,
-    },
-    {
-      title: "Total Revenue",
-      value: "$4,250",
-    },
-    {
-      title: "Active Tasks",
-      value: 19,
-    },
-  ];
+const [stats, setStats] = useState(null);
 
-  return (
-    <div>
-      <h1 className="text-3xl font-bold mb-6">
-        Admin Dashboard
-      </h1>
+useEffect(() => {
+fetch("http://localhost:5000/admin-stats")
+.then((res) => res.json())
+.then((data) => setStats(data));
+}, []);
 
-      <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-4">
-        {stats.map((item) => (
-          <div
-            key={item.title}
-            className="bg-white p-6 rounded-xl border"
-          >
-            <h3 className="text-slate-500">
-              {item.title}
-            </h3>
+if (!stats) {
+return ( <div className="flex justify-center py-20"> <span className="loading loading-spinner loading-lg"></span> </div>
+);
+}
 
-            <p className="text-3xl font-bold mt-3">
-              {item.value}
-            </p>
-          </div>
-        ))}
-      </div>
+return ( <div> <div className="mb-10"> <h1 className="text-4xl font-bold">
+Admin Dashboard </h1>
+
+
+    <p className="text-gray-500 mt-2">
+      Monitor platform activity.
+    </p>
+  </div>
+
+  <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+
+    <div className="bg-white border rounded-3xl p-8 shadow-sm">
+      <p className="text-gray-500">
+        Total Users
+      </p>
+
+      <h2 className="text-5xl font-bold mt-3">
+        {stats.totalUsers}
+      </h2>
     </div>
-  );
+
+    <div className="bg-white border rounded-3xl p-8 shadow-sm">
+      <p className="text-gray-500">
+        Total Tasks
+      </p>
+
+      <h2 className="text-5xl font-bold mt-3">
+        {stats.totalTasks}
+      </h2>
+    </div>
+
+    <div className="bg-white border rounded-3xl p-8 shadow-sm">
+      <p className="text-gray-500">
+        Total Proposals
+      </p>
+
+      <h2 className="text-5xl font-bold mt-3">
+        {stats.totalProposals}
+      </h2>
+    </div>
+
+  </div>
+</div>
+
+
+);
 }

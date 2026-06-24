@@ -39,13 +39,13 @@ export default function HeroSection() {
             </p>
 
             <div className="mt-8 flex flex-wrap gap-4">
-              <Link href="/dashboard/client">
+              <Link href="/dashboard/client/post-task">
                 <Button color="primary" size="lg">
                   Post a Task
                 </Button>
               </Link>
 
-              <Link href="/browse-tasks">
+              <Link href="/dashboard/freelancer/browse-tasks">
                 <Button variant="bordered" size="lg">
                   Browse Tasks
                 </Button>

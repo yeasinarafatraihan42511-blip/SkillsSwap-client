@@ -1,74 +1,52 @@
 "use client";
 
-export default function ManageTasksPage() {
-  const tasks = [
-    {
-      id: 1,
-      title: "React Website",
-      status: "Open",
-      client: "Yeasin",
-    },
-    {
-      id: 2,
-      title: "Mobile App Design",
-      status: "In Progress",
-      client: "John",
-    },
-  ];
+import { useEffect, useState } from "react";
 
-  return (
-    <div>
-      <h1 className="text-3xl font-bold mb-6">
-        Manage Tasks
-      </h1>
+export default function AdminTasksPage() {
+const [tasks, setTasks] = useState([]);
 
-      <div className="bg-white rounded-xl border overflow-hidden">
-        <table className="w-full">
-          <thead className="bg-slate-100">
-            <tr>
-              <th className="p-4 text-left">
-                Task
-              </th>
+useEffect(() => {
+fetch("http://localhost:5000/tasks")
+.then((res) => res.json())
+.then((data) => setTasks(data));
+}, []);
 
-              <th className="p-4 text-left">
-                Client
-              </th>
+return ( <div> <h1 className="text-3xl font-bold mb-8">
+Manage Tasks </h1>
 
-              <th className="p-4 text-left">
-                Status
-              </th>
 
-              <th className="p-4 text-left">
-                Action
-              </th>
-            </tr>
-          </thead>
+  <div className="grid gap-6">
+    {tasks.map((task) => (
+      <div
+        key={task._id}
+        className="bg-white border rounded-3xl p-6"
+      >
+        <h2 className="font-bold text-xl">
+          {task.title}
+        </h2>
 
-          <tbody>
-            {tasks.map((task) => (
-              <tr key={task.id} className="border-t">
-                <td className="p-4">
-                  {task.title}
-                </td>
+        <p className="mt-2">
+          {task.description}
+        </p>
 
-                <td className="p-4">
-                  {task.client}
-                </td>
+        <div className="mt-4 flex flex-wrap gap-4">
+          <span>
+            Budget: ${task.budget}
+          </span>
 
-                <td className="p-4">
-                  {task.status}
-                </td>
+          <span>
+            Status: {task.status}
+          </span>
 
-                <td className="p-4">
-                  <button className="px-3 py-1 rounded bg-red-600 text-white">
-                    Delete
-                  </button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+          <span>
+            {task.category}
+          </span>
+        </div>
       </div>
-    </div>
-  );
+    ))}
+  </div>
+</div>
+
+
+);
 }

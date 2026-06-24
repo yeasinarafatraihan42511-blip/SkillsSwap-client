@@ -1,63 +1,44 @@
 "use client";
 
-export default function ManageUsersPage() {
-  const users = [
-    {
-      id: 1,
-      name: "Yeasin",
-      email: "yeasin@gmail.com",
-      role: "client",
-      status: "Active",
-    },
-    {
-      id: 2,
-      name: "John",
-      email: "john@gmail.com",
-      role: "freelancer",
-      status: "Blocked",
-    },
-  ];
+import { useEffect, useState } from "react";
 
-  return (
-    <div>
-      <h1 className="text-3xl font-bold mb-6">
-        Manage Users
-      </h1>
+export default function AdminUsersPage() {
+const [users, setUsers] = useState([]);
 
-      <div className="bg-white rounded-xl border overflow-hidden">
-        <table className="w-full">
-          <thead className="bg-slate-100">
-            <tr>
-              <th className="p-4 text-left">Name</th>
-              <th className="p-4 text-left">Email</th>
-              <th className="p-4 text-left">Role</th>
-              <th className="p-4 text-left">Status</th>
-              <th className="p-4 text-left">Action</th>
-            </tr>
-          </thead>
+useEffect(() => {
+fetch("http://localhost:5000/admin-users")
+.then((res) => res.json())
+.then((data) => setUsers(data));
+}, []);
 
-          <tbody>
-            {users.map((user) => (
-              <tr key={user.id} className="border-t">
-                <td className="p-4">{user.name}</td>
-                <td className="p-4">{user.email}</td>
-                <td className="p-4 capitalize">
-                  {user.role}
-                </td>
-                <td className="p-4">
-                  {user.status}
-                </td>
+return ( <div> <h1 className="text-3xl font-bold mb-8">
+Manage Users </h1>
 
-                <td className="p-4">
-                  <button className="px-3 py-1 rounded bg-red-600 text-white">
-                    Block
-                  </button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-    </div>
-  );
+
+  <div className="overflow-x-auto bg-white rounded-3xl border">
+    <table className="table">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Role</th>
+          <th>Plan</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        {users.map((user) => (
+          <tr key={user._id}>
+            <td>{user.name}</td>
+            <td>{user.email}</td>
+            <td>{user.role}</td>
+            <td>{user.plan}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+</div>
+
+);
 }
