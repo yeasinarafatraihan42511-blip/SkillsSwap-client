@@ -1,122 +1,3 @@
-// import DashboardSidebar from "@/components/dashboard/DashboardSidebar";
-
-// export default function RootLayout({ children }) {
-//     return (
-//         <div className="flex h-screen bg-background">
-//             <div className="flex flex-1 gap-4 border-amber-800 overflow-hidden">
-//                 {/* sidebar */}
-//              <DashboardSidebar />
-                // <div className="flex-1 overflow-y-auto">
-                //     <div className="flex border w-full">Navbar</div>
-
-                //     <main className="p-5">{children}</main>
-                // </div>
-
-//             </div>
-           
-
-//         </div>
-
-//     );
-// }
-// "use client";
-
-// import { useState } from "react";
-// import { Menu } from "lucide-react";
-// // import ClientSidebar from "./ClientSidebar";
-// import DashboardSidebar from "@/components/dashboard/ClientSidebar";
-// import DashboardNavbar from "@/components/dashboard/DashboardNavbar";
-
-// export default function DashboardLayout({
-//   children,
-// }) {
-//   const [open, setOpen] = useState(false);
-
-//   return (
-//     <div className="flex">
-//       {/* Desktop */}
-//       <aside className="hidden lg:block w-72 border-r">
-//         <DashboardSidebar />
-//       </aside>
-
-//       {/* Mobile Drawer */}
-//       {open && (
-//         <div className="fixed inset-0 z-50 flex">
-//           <div className="w-72 bg-white">
-           
-//              <DashboardSidebar />
-//           </div>
-
-//           <div
-//             className="flex-1 bg-black/40"
-//             onClick={() => setOpen(false)}
-//           />
-//         </div>
-//       )}
-//         <div className="flex border w-full">Navbar</div>
-
-//       <main className="flex-1 min-h-screen">
-//         <div className="lg:hidden h-16 border-b flex items-center px-4">
-//           <button onClick={() => setOpen(true)}>
-//             <Menu />
-//           </button>
-//         </div>
-
-//         <div className="p-6">
-//           {children}
-//         </div>
-//       </main>
-//     </div>
-//   );
-// }
-// "use client";
-
-// import { useState } from "react";
-// import DashboardSidebar from "@/components/dashboard/ClientSidebar";
-// import DashboardNavbar from "@/components/dashboard/DashboardNavbar";
-
-// export default function DashboardLayout({ children }) {
-//   const [open, setOpen] = useState(false);
-
-//   return (
-//     <div className="flex min-h-screen bg-slate-50">
-      
-//       {/* Desktop Sidebar */}
-//       <aside className="hidden lg:block w-72 border-r bg-white">
-//         <DashboardSidebar />
-//       </aside>
-
-//       {/* Mobile Sidebar */}
-//       {open && (
-//         <div className="fixed inset-0 z-50 flex lg:hidden">
-//           <div className="w-72 bg-white">
-//             <DashboardSidebar />
-//           </div>
-
-//           <div
-//             className="flex-1 bg-black/40"
-//             onClick={() => setOpen(false)}
-//           />
-//         </div>
-//       )}
-
-//       {/* Main Content Area */}
-//       <div className="flex-1 flex flex-col">
-
-//         {/* Top Navbar */}
-        
-
-//         {/* Page Content */}
-//         <main className="flex-1 p-6 overflow-y-auto">
-//           {children}
-//         </main>
-
-//       </div>
-//     </div>
-//   );
-// }
-
-
 "use client";
 
 import { useState } from "react";
@@ -126,58 +7,128 @@ import ClientSidebar from "@/components/dashboard/ClientSidebar";
 import FreelancerSidebar from "@/components/dashboard/FreelancerSidebar";
 import AdminSidebar from "@/components/dashboard/AdminSidebar";
 
-export default function DashboardLayout({ children }) {
-  const [open, setOpen] = useState(false);
+export default function DashboardLayout({
+children,
+}) {
+const [open, setOpen] =
+useState(false);
 
-  const { data: session } = authClient.useSession();
+const { data: session } =
+authClient.useSession();
 
-  const role = session?.user?.role;
+const role =
+session?.user?.role;
 
-  const renderSidebar = () => {
-    switch (role) {
-      case "client":
-        return <ClientSidebar />;
+const renderSidebar = () => {
+switch (role) {
+case "client":
+return <ClientSidebar />;
 
-      case "freelancer":
-        return <FreelancerSidebar />;
+  case "freelancer":
+    return (
+      <FreelancerSidebar />
+    );
 
-      case "admin":
-        return <AdminSidebar />;
+  case "admin":
+    return <AdminSidebar />;
 
-      default:
-        return (
-          <div className="p-6">
-            Loading...
-          </div>
-        );
-    }
-  };
+  default:
+    return (
+      <div className="p-6">
+        Loading...
+      </div>
+    );
+}
 
-  return (
-    <div className="flex min-h-screen bg-slate-50">
-      {/* Desktop Sidebar */}
-      <aside className="hidden lg:block w-72 border-r bg-white">
-        {renderSidebar()}
-      </aside>
 
-      {/* Mobile Sidebar */}
-      {open && (
-        <div className="fixed inset-0 z-50 flex lg:hidden">
-          <div className="w-72 bg-white">
-            {renderSidebar()}
-          </div>
+};
 
-          <div
-            className="flex-1 bg-black/40"
-            onClick={() => setOpen(false)}
-          />
-        </div>
-      )}
+return ( <div className="flex min-h-screen bg-slate-50">
 
-      {/* Main Content */}
-      <main className="flex-1 p-6 overflow-y-auto">
-        {children}
-      </main>
+
+  {/* Desktop Sidebar */}
+
+  <aside className="hidden lg:block w-72 border-r bg-white shadow-sm">
+    {renderSidebar()}
+  </aside>
+
+  {/* Mobile Sidebar */}
+
+  <div
+    className={`fixed inset-y-0 left-0 z-50 w-72 bg-white shadow-xl transform transition-transform duration-300 lg:hidden ${
+      open
+        ? "translate-x-0"
+        : "-translate-x-full"
+    }`}
+  >
+    <div className="flex justify-between items-center p-5 border-b">
+
+      <h2 className="font-bold text-xl">
+        Dashboard
+      </h2>
+
+      <button
+        onClick={() =>
+          setOpen(false)
+        }
+        className="text-2xl"
+      >
+        ✕
+      </button>
+
     </div>
-  );
+
+    {renderSidebar()}
+  </div>
+
+  {/* Overlay */}
+
+  {open && (
+    <div
+      onClick={() =>
+        setOpen(false)
+      }
+      className="fixed inset-0 bg-black/40 z-40 lg:hidden"
+    />
+  )}
+
+  {/* Main Section */}
+
+  <div className="flex-1 flex flex-col">
+
+    {/* Mobile Header */}
+
+    <header className="lg:hidden bg-white border-b sticky top-0 z-30">
+
+      <div className="flex items-center justify-between px-4 py-4">
+
+        <button
+          onClick={() =>
+            setOpen(true)
+          }
+          className="text-2xl"
+        >
+          ☰
+        </button>
+
+        <h1 className="font-bold text-lg">
+          SkillSwap
+        </h1>
+
+        <div className="w-8" />
+      </div>
+
+    </header>
+
+    {/* Content */}
+
+    <main className="flex-1 p-4 md:p-6 lg:p-8 overflow-y-auto">
+      {children}
+    </main>
+
+  </div>
+</div>
+
+
+);
 }
