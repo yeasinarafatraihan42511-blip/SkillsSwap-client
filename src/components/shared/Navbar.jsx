@@ -1,7 +1,7 @@
 
 "use client";
-import {ArrowRightFromSquare, Gear, Persons} from "@gravity-ui/icons";
-import { Label} from "@heroui/react";
+import { ArrowRightFromSquare, Gear, Persons } from "@gravity-ui/icons";
+import { Label } from "@heroui/react";
 
 import Link from "next/link";
 import { authClient } from "@/lib/auth-client";
@@ -19,7 +19,7 @@ import { User } from "lucide-react";
 export default function Navbar() {
   const { data: session } = authClient.useSession();
   const pathname = usePathname();
-  if(pathname.includes('dashboard')){
+  if (pathname.includes('dashboard')) {
     return null;
   }
 
@@ -27,6 +27,11 @@ export default function Navbar() {
     await authClient.signOut();
     window.location.href = "/";
   };
+  const user = session?.user;
+
+
+  const avatarText =
+    user?.name?.charAt(0)?.toUpperCase() || "U";
 
   return (
     <header className="sticky top-0 z-50 border-b bg-white/90 backdrop-blur-md">
@@ -57,15 +62,15 @@ export default function Navbar() {
             <Button as={Link} href="/auth/register" color="primary">
               Register
             </Button> */}
-             <>
+            <>
               <Link
-                href="auth/login"
+                href="/auth/login"
                 className="px-4 py-1.5 border-2 border-fuchsia-500 rounded-md hover:bg-gray-50"
               >
                 Login
               </Link>
               <Link
-                href="auth/register"
+                href="/auth/register"
                 className="px-4 py-1.5 bg-red-500 text-white rounded-md hover:bg-gray-800"
               >
                 Register
@@ -76,60 +81,101 @@ export default function Navbar() {
           <Dropdown>
             <Dropdown.Trigger className="rounded-full">
               <Avatar>
-                <Avatar.Image
-                  alt="Junior Garcia"
-                  src="https://heroui-assets.nyc3.cdn.digitaloceanspaces.com/avatars/orange.jpg"
+                <Avatar
+                  src={user?.image || ""}
+                  name={avatarText}
+                  className="cursor-pointer"
                 />
                 <Avatar.Fallback delayMs={600}>JD</Avatar.Fallback>
               </Avatar>
             </Dropdown.Trigger>
             <Dropdown.Popover>
-              <div className="px-3 pt-3 pb-1">
-                <div className="flex items-center gap-2">
-                  <Avatar size="sm">
-                    <Avatar.Image
-                      // alt="Jane"
-                      // src="https://heroui-assets.nyc3.cdn.digitaloceanspaces.com/avatars/orange.jpg"
-                      // alt={session?.user?.name || "User Avatar"}
-                      // src={session?.user?.image || "https://heroui-assets.nyc3.cdn.digitaloceanspaces.com/avatars/orange.jpg"}
-                      
-                    />
-                    <Avatar.Fallback delayMs={600}>JD</Avatar.Fallback>
-                  </Avatar>
-                  <div className="flex flex-col gap-0">
-                    <p className="text-sm leading-5 font-medium">Jane Doe</p>
-                    <p className="text-xs leading-none text-muted">jane@example.com</p>
+              <div className="px-3 pt-3 pb-2 border-b">
+                <div className="flex items-center gap-3">
+
+                  <Avatar
+                    src={user?.image || ""}
+                    name={avatarText}
+                    size="sm"
+                  />
+
+                  <div>
+                    <p className="font-semibold">
+                      {user?.name}
+                    </p>
+
+                    <p className="text-xs text-gray-500">
+                      {user?.email}
+                    </p>
+
+                    <span className="text-xs px-2 py-1 bg-blue-100 text-blue-600 rounded-full">
+                      {user?.role}
+                    </span>
                   </div>
+
                 </div>
               </div>
-              <Dropdown.Menu>
-                <Dropdown.Item id="dashboard" textValue="Dashboard">
-                  <Link href={`/dashboard/${session?.user?.role}`}>
-                    <Label>Dashboard</Label>
-                  </Link>
-                </Dropdown.Item>
-                <Dropdown.Item id="profile" textValue="Profile">
-                  <Label>Profile</Label>
-                </Dropdown.Item>
-                <Dropdown.Item id="settings" textValue="Settings">
-                  <div className="flex w-full items-center justify-between gap-2">
-                    <Label>Settings</Label>
-                    <Gear className="size-3.5 text-muted" />
-                  </div>
-                </Dropdown.Item>
-                <Dropdown.Item id="new-project" textValue="New project">
-                  <div className="flex w-full items-center justify-between gap-2">
-                    <Label>Create Team</Label>
-                    <Persons className="size-3.5 text-muted" />
-                  </div>
-                </Dropdown.Item>
-                <Dropdown.Item id="logout" textValue="Logout" variant="danger" onPress={handleLogout}>
-                  <div className="flex w-full items-center justify-between gap-2">
-                    <Label>Log Out</Label>
-                    <ArrowRightFromSquare className="size-3.5 text-danger" />
-                  </div>
-                </Dropdown.Item>
-              </Dropdown.Menu>
+              <DropdownMenu aria-label="Profile Actions">
+
+                <DropdownItem
+                  key="dashboard"
+                  href={`/dashboard/${user?.role}`}
+                >
+                  Dashboard
+                </DropdownItem>
+
+                <DropdownItem
+                  key="profile"
+                >
+                  My Profile
+                </DropdownItem>
+
+                <DropdownItem
+                  key="browseTasks"
+                  href="/browse-tasks"
+                >
+                  Browse Tasks
+                </DropdownItem>
+
+                <DropdownItem
+                  key="browseFreelancers"
+                  href="/browse-freelancers"
+                >
+                  Browse Freelancers
+                </DropdownItem>
+
+                <DropdownItem
+                  key="settings"
+                >
+                  Settings
+                </DropdownItem>
+
+                <DropdownItem
+                  key="logout"
+                  color="danger"
+                  onPress={handleLogout}
+                >
+                  Logout
+                </DropdownItem>
+                {user?.role === "client" && (
+                  <DropdownItem href="/dashboard/client/post-task">
+                    Post Task
+                  </DropdownItem>
+                )}
+
+                {user?.role === "freelancer" && (
+                  <DropdownItem href="/dashboard/freelancer/my-proposals">
+                    My Proposals
+                  </DropdownItem>
+                )}
+
+                {user?.role === "admin" && (
+                  <DropdownItem href="/dashboard/admin">
+                    Admin Panel
+                  </DropdownItem>
+                )}
+
+              </DropdownMenu>
             </Dropdown.Popover>
           </Dropdown>
         )}
@@ -137,3 +183,5 @@ export default function Navbar() {
     </header>
   );
 }
+
+

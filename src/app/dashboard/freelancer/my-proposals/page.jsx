@@ -33,9 +33,9 @@ return ( <div className="flex justify-center py-20"> <span className="loading lo
 return ( <div> <h1 className="text-3xl font-bold mb-8">
 My Proposals </h1>
 
-  <div className="overflow-x-auto bg-white rounded-3xl border shadow-sm">
+  <div className="overflow-x-auto bg-white rounded-3xl border shadow-sm border-gray-200 gap-4 p-4">
     <table className="table">
-      <thead>
+      <thead className="bg-gray-100 border-b border-gray-200 text-gray-600 gap-4 p-4">
         <tr>
           <th>Task</th>
           <th>Budget</th>
