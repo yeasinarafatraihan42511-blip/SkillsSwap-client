@@ -195,6 +195,8 @@ import { authClient } from "@/lib/auth-client";
 import {
 Dropdown,
 Avatar,
+DropdownMenu,
+DropdownItem,
 } from "@heroui/react";
 
 import { Menu, X } from "lucide-react";
@@ -247,93 +249,136 @@ return ( <header className="sticky top-0 z-50 border-b bg-white/90 backdrop-blur
       </Link>
     </div>
 
-    {/* Right Side */}
-    {!session ? (
-      <div className="hidden md:flex gap-3">
-        <Link
-          href="/auth/login"
-          className="px-4 py-2 border rounded-lg"
-        >
-          Login
-        </Link>
+     {/* Right Side */}
+        {!session ? (
+          <div className="flex gap-3">
+            {/* <Button as={Link} href="/auth/login" variant="light">
+              Login
+            </Button>
+            <Link href="/auth/login" variant="light">
+              Login
+            </Link>
 
-        <Link
-          href="/auth/register"
-          className="px-4 py-2 bg-blue-600 text-white rounded-lg"
-        >
-          Register
-        </Link>
-      </div>
-    ) : (
-      <div className="hidden md:block">
-        <Dropdown>
-          <Dropdown.Trigger>
-            <Avatar
-              src={user?.image || ""}
-              name={avatarText}
-              className="cursor-pointer"
-            />
-          </Dropdown.Trigger>
+            <Button as={Link} href="/auth/register" color="primary">
+              Register
+            </Button> */}
+            <>
+              <Link
+                href="/auth/login"
+                className="px-4 py-1.5 border-2 border-fuchsia-500 rounded-md hover:bg-gray-50"
+              >
+                Login
+              </Link>
+              <Link
+                href="/auth/register"
+                className="px-4 py-1.5 bg-red-500 text-white rounded-md hover:bg-gray-800"
+              >
+                Register
+              </Link>
+            </>
+          </div>
+        ) : (
+          <Dropdown>
+            <Dropdown.Trigger className="rounded-full">
+              <Avatar>
+                <Avatar
+                  src={user?.image || ""}
+                  name={avatarText}
+                  className="cursor-pointer"
+                />
+                <Avatar.Fallback delayMs={600}>JD</Avatar.Fallback>
+              </Avatar>
+            </Dropdown.Trigger>
+            <Dropdown.Popover>
+              <div className="px-3 pt-3 pb-2 border-b">
+                <div className="flex items-center gap-3">
 
-          <Dropdown.Menu>
+                  <Avatar
+                    src={user?.image || ""}
+                    name={avatarText}
+                    size="sm"
+                  />
 
-            <Dropdown.Item
-              key="dashboard"
-              href={`/dashboard/${user?.role}`}
-            >
-              Dashboard
-            </Dropdown.Item>
+                  <div>
+                    <p className="font-semibold">
+                      {user?.name}
+                    </p>
 
-            <Dropdown.Item
-              key="profile"
-            >
-              My Profile
-            </Dropdown.Item>
+                    <p className="text-xs text-gray-500">
+                      {user?.email}
+                    </p>
 
-            <Dropdown.Item
-              key="browseTasks"
-              href="/browse-tasks"
-            >
-              Browse Tasks
-            </Dropdown.Item>
+                    <span className="text-xs px-2 py-1 bg-blue-100 text-blue-600 rounded-full">
+                      {user?.role}
+                    </span>
+                  </div>
 
-            <Dropdown.Item
-              key="browseFreelancers"
-              href="/browse-freelancers"
-            >
-              Browse Freelancers
-            </Dropdown.Item>
+                </div>
+              </div>
+              <DropdownMenu aria-label="Profile Actions">
 
-            {user?.role === "client" && (
-              <Dropdown.Item href="/dashboard/client/post-task">
-                Post Task
-              </Dropdown.Item>
-            )}
+                <DropdownItem
+                  key="dashboard"
+                  href={`/dashboard/${user?.role}`}
+                >
+                  Dashboard
+                </DropdownItem>
 
-            {user?.role === "freelancer" && (
-              <Dropdown.Item href="/dashboard/freelancer/my-proposals">
-                My Proposals
-              </Dropdown.Item>
-            )}
+                <DropdownItem
+                  key="profile"
+                >
+                  My Profile
+                </DropdownItem>
 
-            {user?.role === "admin" && (
-              <Dropdown.Item href="/dashboard/admin">
-                Admin Panel
-              </Dropdown.Item>
-            )}
+                <DropdownItem
+                  key="browseTasks"
+                  href="/browse-tasks"
+                >
+                  Browse Tasks
+                </DropdownItem>
 
-            <Dropdown.Item
-              key="logout"
-              color="danger"
-              onPress={handleLogout}
-            >
-              Logout
-            </Dropdown.Item>
+                <DropdownItem
+                  key="browseFreelancers"
+                  href="/browse-freelancers"
+                >
+                  Browse Freelancers
+                </DropdownItem>
 
-          </Dropdown.Menu>
-        </Dropdown>
-      </div>
-    )}
+                <DropdownItem
+                  key="settings"
+                >
+                  Settings
+                </DropdownItem>
+
+                <DropdownItem
+                  key="logout"
+                  color="danger"
+                  onPress={handleLogout}
+                >
+                  Logout
+                </DropdownItem>
+                {user?.role === "client" && (
+                  <DropdownItem href="/dashboard/client/post-task">
+                    Post Task
+                  </DropdownItem>
+                )}
+
+                {user?.role === "freelancer" && (
+                  <DropdownItem href="/dashboard/freelancer/my-proposals">
+                    My Proposals
+                  </DropdownItem>
+                )}
+
+                {user?.role === "admin" && (
+                  <DropdownItem href="/dashboard/admin">
+                    Admin Panel
+                  </DropdownItem>
+                )}
+
+              </DropdownMenu>
+            </Dropdown.Popover>
+          </Dropdown>
+        )}
 
     {/* Mobile Hamburger */}
     <button
