@@ -1,36 +1,246 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# SkillSwap
 
-## Getting Started
+A modern freelance micro-task marketplace where clients can post tasks and freelancers can submit proposals, get hired, and receive payments securely.
 
-First, run the development server:
+## Live Website
+
+Frontend: https://your-client-site.vercel.app
+
+Backend: https://your-server-site.vercel.app
+
+## Admin Credentials
+
+Email: [admin@gmail.com](mailto:admin@gmail.com)
+
+Password: admin123
+
+---
+
+## Project Overview
+
+SkillSwap is a role-based freelance marketplace built to connect clients and freelancers efficiently.
+
+Clients can post tasks and manage proposals.
+
+Freelancers can browse tasks, submit proposals, and manage accepted projects.
+
+Admins can monitor users, tasks, and platform transactions.
+
+---
+
+## Features
+
+### Authentication & Authorization
+
+* Better Auth Authentication
+* Email & Password Login
+* Role Based Access Control
+* Protected Dashboard Routes
+* Proxy Based Route Protection
+
+### Client Features
+
+* Post New Task
+* Manage Own Tasks
+* Update Tasks
+* Delete Tasks
+* View Freelancer Proposals
+* Accept Proposals
+* Payment Integration
+
+### Freelancer Features
+
+* Browse Tasks
+* Search Tasks
+* Filter Tasks
+* Pagination
+* Submit Proposal
+* View My Proposals
+* View Accepted Projects
+
+### Admin Features
+
+* Dashboard Analytics
+* Manage Users
+* Manage Tasks
+* View Transactions
+* Platform Statistics
+
+### Home Page Features
+
+* Dynamic Hero Section
+* Featured Tasks
+* Top Freelancers
+* Responsive Navigation
+* Mobile Hamburger Menu
+
+### UI Features
+
+* Fully Responsive Design
+* Modern Dashboard
+* Mobile Friendly Layout
+* Loading States
+* Toast Notifications
+* Premium Card Design
+* Smooth Animations with Framer Motion
+
+---
+
+## Technologies Used
+
+### Frontend
+
+* Next.js 15
+* React 19
+* Tailwind CSS
+* DaisyUI
+* HeroUI
+* Framer Motion
+* React Hot Toast
+
+### Backend
+
+* Node.js
+* Express.js
+* MongoDB
+* MongoDB Atlas
+
+### Authentication
+
+* Better Auth
+
+### Payment
+
+* Stripe Payment Gateway
+
+### Deployment
+
+* Vercel
+* Render
+
+---
+
+## Database Collections
+
+### users
+
+* name
+* email
+* role
+* image
+
+### tasks
+
+* title
+* category
+* description
+* budget
+* deadline
+* clientName
+* clientEmail
+* status
+* createdAt
+
+### proposals
+
+* taskId
+* taskTitle
+* freelancerName
+* freelancerEmail
+* clientName
+* clientEmail
+* proposedBudget
+* estimatedDays
+* coverLetter
+* status
+* createdAt
+
+---
+
+## NPM Packages
+
+### Client
+
+```bash
+npm install next react react-dom
+npm install tailwindcss
+npm install daisyui
+npm install @heroui/react
+npm install better-auth
+npm install framer-motion
+npm install react-hot-toast
+npm install lucide-react
+```
+
+### Server
+
+```bash
+npm install express
+npm install cors
+npm install dotenv
+npm install mongodb
+npm install stripe
+```
+
+## Environment Variables
+
+### Client
+
+```env
+NEXT_PUBLIC_API_URL=
+NEXT_PUBLIC_BASE_URL=
+```
+
+### Server
+
+```env
+PORT=
+DB_NAME=
+MONGODB_URI=
+STRIPE_SECRET_KEY=
+```
+
+## Installation
+
+### Clone Repository
+
+```bash
+git clone https://github.com/your-username/skillswap-client.git
+git clone https://github.com/your-username/skillswap-server.git
+```
+
+### Install Dependencies
+
+```bash
+npm install
+```
+
+### Run Client
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Run Server
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+```bash
+npm run dev
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Future Improvements
 
-## Learn More
+* Real-time Notifications
+* Freelancer Ratings
+* Client Reviews
+* Advanced Search
+* AI Task Matching
+* Chat System
+* Withdrawal System
 
-To learn more about Next.js, take a look at the following resources:
+## Developed By
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Yeasin Arafat
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Programming Hero Batch 13
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Assignment 10 - SkillSwap

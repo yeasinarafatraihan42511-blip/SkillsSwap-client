@@ -202,20 +202,40 @@ DropdownItem,
 import { Menu, X } from "lucide-react";
 
 export default function Navbar() {
-const { data: session } = authClient.useSession();
+const {
+  data: session,
+  isPending,
+} = authClient.useSession();
+
+
 const pathname = usePathname();
 
 const [mobileMenuOpen, setMobileMenuOpen] =
 useState(false);
-
+if (isPending) {
+  return null;
+}
 if (pathname.includes("dashboard")) {
 return null;
 }
 
+
+
 const handleLogout = async () => {
-await authClient.signOut();
-window.location.href = "/";
+  console.log("Logging out...");
+  try {
+    await authClient.signOut({
+      fetchOptions: {
+        onSuccess: () => {
+          window.location.replace("/");
+        },
+      },
+    });
+  } catch (err) {
+    console.log(err);
+  }
 };
+
 
 const user = session?.user;
 
